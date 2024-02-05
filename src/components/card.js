@@ -1,4 +1,4 @@
-import { cardTemplate } from "..";
+import { cardTemplate } from "./index";
 
 
 
@@ -20,7 +20,8 @@ function createCard (name, link,  deleteCard, openImage, cardLike) {
 }
   
 function deleteCard (evt) {
-    evt.target.parentElement.remove();
+    const elementCard = evt.target.closest('.card');
+    elementCard.remove();
 }
 function cardLike(evt) {
     evt.target.classList.toggle('card__like-button_is-active')

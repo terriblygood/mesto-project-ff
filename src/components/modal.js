@@ -1,17 +1,19 @@
-import { popupImage, popupTypeImage,popupImageCaption } from "..";
+import { nameInput, jobInput, profileTitle, profileDesc } from './index';
 
-function openModalWindow(evt) {
-    evt.classList.add('popup_is-opened');
+function openModalWindow(elementPopup) {
+    elementPopup.classList.add('popup_is-opened');
     document.addEventListener('keydown', closeEsc);
-    evt.addEventListener('click', closeOverlay);
+    elementPopup.addEventListener('click', closeOverlay);
+    if (elementPopup.classList.contains('popup_type_edit')) {
+        nameInput.value = profileTitle.textContent; 
+        jobInput.value = profileDesc.textContent;
+    }
 }
 
-function closeModalWindow(evt) {
-    evt.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', closeModalWindow);
-    document.removeEventListener('click', closeModalWindow);
-    evt.removeEventListener('click', closeOverlay);
-
+function closeModalWindow(elementPopup) {
+    elementPopup.classList.remove('popup_is-opened');
+    document.removeEventListener('keydown', closeEsc);
+    elementPopup.removeEventListener('click', closeOverlay);
 }
 
 function closeOverlay(evt) {
@@ -28,12 +30,7 @@ function closeEsc(evt) {
     }
 }
 
-function openImage(name,link) {
-    popupImage.src=link;
-    popupImageCaption.textContent = name;
-    openModalWindow(popupTypeImage);
-}
 
 
 
-export {openModalWindow, closeModalWindow, closeOverlay, closeEsc, openImage};
+export {openModalWindow, closeModalWindow, closeOverlay, closeEsc};

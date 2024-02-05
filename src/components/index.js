@@ -1,10 +1,10 @@
-import './pages/index.css';
-import './vendor/normalize.css';
+import '../pages/index.css';
+import '../vendor/normalize.css';
 import {initialCards} from '/src/components/cards.js';
-import {openModalWindow, closeModalWindow, openImage} from './components/modal';
-import {handleFormSubmit} from './components/profileSub';
-import {handleCardSubmit} from './components/addCardSubmit';
-import {cardLike, createCard, deleteCard} from './components/card';
+import {openModalWindow, closeModalWindow} from './modal';
+import {handleProfileSubmit} from './profileSub';
+import {handleCardSubmit} from './addCardSubmit';
+import {cardLike, createCard, deleteCard} from './card';
 
 
   
@@ -56,9 +56,9 @@ export const popupImageCaption = document.querySelector('.popup__caption');
 export const popupTypeImage = document.querySelector('.popup_type_image');
 const popupImageClose = popupTypeImage.querySelector('.popup__close');
 
-const formElement = document.querySelector('.popup_type_edit .popup__form');
-export const nameInput = formElement.querySelector('.popup__input_type_name');
-export const jobInput = formElement.querySelector('.popup__input_type_description');
+const profileFormElement = document.querySelector('.popup_type_edit .popup__form');
+export const nameInput = profileFormElement.querySelector('.popup__input_type_name');
+export const jobInput = profileFormElement.querySelector('.popup__input_type_description');
 export const profileTitle = document.querySelector('.profile__title');
 export const profileDesc = document.querySelector('.profile__description');
 
@@ -68,8 +68,7 @@ export const cardUrlInput = formElementCard.querySelector('.popup__input_type_ur
 
 
 
-nameInput.value = profileTitle.textContent;
-jobInput.value = profileDesc.textContent;
+
 
 
 btnEditProfile.addEventListener('click', function () {
@@ -92,10 +91,17 @@ popupImageClose.addEventListener('click', function () {
   closeModalWindow(popupTypeImage)
 })
 
-formElement.addEventListener('submit', handleFormSubmit);
+profileFormElement.addEventListener('submit', handleProfileSubmit);
 formElementCard.addEventListener('submit', handleCardSubmit)
 
 
 initialCards.forEach(element => {
     placeList.append(createCard(element.name, element.link, deleteCard, openImage, cardLike))
 });
+
+export function openImage(name,link) {
+  popupImage.src=link;
+  popupImageCaption.textContent = name;
+  popupImage.alt = name;
+  openModalWindow(popupTypeImage);
+}
