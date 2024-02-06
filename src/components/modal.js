@@ -4,10 +4,6 @@ function openModalWindow(elementPopup) {
     elementPopup.classList.add('popup_is-opened');
     document.addEventListener('keydown', closeEsc);
     elementPopup.addEventListener('click', closeOverlay);
-    if (elementPopup.classList.contains('popup_type_edit')) {
-        nameInput.value = profileTitle.textContent; 
-        jobInput.value = profileDesc.textContent;
-    }
 }
 
 function closeModalWindow(elementPopup) {

@@ -73,6 +73,9 @@ export const cardUrlInput = formElementCard.querySelector('.popup__input_type_ur
 
 btnEditProfile.addEventListener('click', function () {
   openModalWindow(popupEditProfile)
+
+  nameInput.value = profileTitle.textContent; 
+  jobInput.value = profileDesc.textContent;
 })
 
 popupProfileClose.addEventListener('click', function () {
