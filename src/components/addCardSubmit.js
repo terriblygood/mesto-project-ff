@@ -1,20 +1,48 @@
-import { cardNameInput,cardUrlInput,formElementCard, openImage, placeList, popupAddMesto } from './index';
-import { cardLike, createCard, deleteCard } from "./card";
-import { closeModalWindow, openModalWindow } from "./modal";
+import { cardNameInput,cardUrlInput, openImage, placeList, popupAddMesto, cardForm, cardDeleteFunction, handleCardLike, cardTemplate, cardSubmit} from './index';
+import {createCard } from "./card";
+import { closeModalWindow } from "./modal";
+import {createCard as apiCreateCard} from "./API"
+import { whileLoad } from './uxForms';
 
 
-function handleCardSubmit(evt) {
+const handleCardSubmit = (evt) => {
     evt.preventDefault();
-    
-    const name = cardNameInput.value;
-    const cardUrl = cardUrlInput.value;
 
-    const newCard = createCard(name, cardUrl, deleteCard, openImage, cardLike);
+    whileLoad({ 
+      btnElement: cardSubmit,
+      isLoad: true
+    })
 
-    placeList.prepend(newCard);
-    formElementCard.reset();
-    closeModalWindow(popupAddMesto);
-}
+    apiCreateCard({
+      name: cardNameInput.value,
+      link: cardUrlInput.value,
+    })
+      .then((cardData) => {
+        placeList.prepend(
+          createCard({
+            currentUserId: cardData.owner['_id'],
+            template: cardTemplate,
+            data: cardData,
+            onDelete: cardDeleteFunction,
+            onLike: handleCardLike,
+            ImageOpen: openImage,
+          })
+        );
 
+        cardForm.reset();
+  
+        closeModalWindow(popupAddMesto);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        whileLoad({
+          btnElement: cardSubmit,
+          isLoad: false
+        });
+    });
+};
+  
 
 export {handleCardSubmit};

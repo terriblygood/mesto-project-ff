@@ -1,5 +1,3 @@
-import { nameInput, jobInput, profileTitle, profileDesc } from './index';
-
 function openModalWindow(elementPopup) {
     elementPopup.classList.add('popup_is-opened');
     document.addEventListener('keydown', closeEsc);
