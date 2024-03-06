@@ -23,7 +23,7 @@ const handleCardSubmit = (evt) => {
             currentUserId: cardData.owner['_id'],
             template: cardTemplate,
             data: cardData,
-            onDelete: cardDeleteFunction,
+            deleteFunc: cardDeleteFunction,
             onLike: handleCardLike,
             ImageOpen: openImage,
           })
