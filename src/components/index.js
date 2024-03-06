@@ -128,6 +128,7 @@ export const handleCardLike = ({ cardId, btnElement, counterElement }) => {
         if (likes.length) {
           counterElement.classList.add('card__like-counter_is-active');
           counterElement.textContent = likes.length;
+          // console.log(likes.length);
         } else {
           counterElement.classList.remove('card__like-counter_is-active');
           counterElement.textContent = "0";
