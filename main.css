@@ -624,7 +624,7 @@ template {
   }
 }
 
-.profile__image {
+/* .profile__image {
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50%;
@@ -633,6 +633,64 @@ template {
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+}
+
+@media screen and (max-width: 740px) {
+  .profile__image {
+    margin: 0 10px 0 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .profile__image {
+    margin-right: 0;
+  }
+} */
+
+.profile__image {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 30px 0 0;
+  border: none;
+  border-radius: 55%;
+  padding: 0;
+  background-position: center;
+  background-size: cover;
+}
+
+.profile__image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+}
+
+.profile__image::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 26px;
+  height: 26px;
+  opacity: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2726%27 height=%2726%27 viewBox=%270 0 26 26%27 fill=%27none%27%3E%3Cpath d=%27M26 3.45351L6.76981 22.7932L3.33585 19.2903L22.517 0L26 3.45351ZM0 26L5.10189 24.4706L1.52075 21.0171L0 26Z%27 fill=%27white%27/%3E%3C/svg%3E");
+  transition: 0.5s;
+  transform: translate(-50%, -50%);
+  transform: center;
+}
+
+.profile__image:hover::before,
+.profile__image:hover::after{
+  opacity: 1;
 }
 
 @media screen and (max-width: 740px) {
@@ -749,6 +807,8 @@ template {
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
+
+  display: none;
 }
 
 .card__delete-button:hover {
@@ -766,6 +826,24 @@ template {
   margin: 0;
 }
 
+.card__like-block {
+    display: grid;
+    justify-items: center;
+    gap: 5px;
+  }
+.card__like-counter {
+    color: #000;
+    text-align: center;
+    font-size: 13px;
+    line-height: normal;
+    display: none;
+}
+.card__like-counter_is-active {
+    display: inline-block;
+}
+.card__delete-button_is-active {
+    display: block;
+}
 .card {
   font-family: 'Inter', Arial, sans-serif;
   -webkit-border-radius: 10px;
@@ -778,7 +856,7 @@ template {
 .popup__content {
   max-width: 430px;
   width: 100%;
-  min-height: 330px;
+  /* убрал minheight для конфирма */  
   background-color: #fff;
   border-radius: 10px;
   position: relative;
@@ -874,6 +952,21 @@ template {
   }
 }
 
+.popup__input_type_error {
+    border-color: #f00;
+  }
+.popup__error {
+    font-size: 12px;
+    color: #f00;
+    transition: 0.3s;
+    line-height: normal;
+    display: inline-block;
+    margin-bottom: 10px;
+    opacity: 0;
+}
+.popup__error_visible {
+    opacity: 1;
+}
 .popup__button {
   width: 100%;
   height: 50px;
@@ -901,7 +994,14 @@ template {
     line-height: 17px;
   }
 }
-
+.popup__button_disabled {
+    cursor: default;
+    pointer-events: none;
+    background: transparent;
+    color: #000;
+    border: 1px solid #000;
+    opacity: 0.2;
+  }
 .popup__caption {
   font-size: 12px;
   line-height: 15px;
