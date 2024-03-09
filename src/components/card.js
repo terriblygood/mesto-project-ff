@@ -1,16 +1,17 @@
-const createCard=({ currentUserId, template, data, deleteFunc, like, ImageOpen }) => {
+import { cardToRemove } from ".";
+
+
+const createCard=({ currentUserId, template, data, openConfirm, like, openCardImage }) => {
 
     const card = template.querySelector('.card').cloneNode(true);
     const deleteButton = card.querySelector('.card__delete-button');
     const cardImage = card.querySelector('.card__image');
     const counter = card.querySelector('.card__like-counter');
     const btnLike = card.querySelector('.card__like-button');
-
     counter.classList.add('card__like-counter_is-active');
-    counter.textContent = data.likes.length;
 
     cardImage.addEventListener('click', () =>
-      ImageOpen({
+      openCardImage({
         name: data.name,
         link: data.link,
       })
@@ -20,36 +21,46 @@ const createCard=({ currentUserId, template, data, deleteFunc, like, ImageOpen }
 
     card.querySelector('.card__title').textContent = data.name;
 
-    // deleteButton.addEventListener('click', deleteCard);
+
     if (data.owner['_id'] === currentUserId) { 
         deleteButton.classList.add('card__delete-button_is-active');
         deleteButton.addEventListener('click', () => {
-          deleteFunc({
-            cardId: data['_id'],
-            cardElement: card,
-            btnElement: deleteButton,
-          });
+
+        cardToRemove._id = data['_id'];
+        cardToRemove.card = card;
+        
+        
+        openConfirm();
         });
     };
 
-    if (data.likes.find((element) => element['_id'] === currentUserId)) {
-        btnLike.classList.add('card__like-button_is-active');
-    };
-
-    btnLike.addEventListener('click', () => {
-        like({
-          cardId: data['_id'],
-          btnElement: btnLike,
-          counterElement: counter
-        });
-      });
     
-    // cardImage.addEventListener('click', function() {
-    //   openImage(name, link)
-    // })
-    // btnLike.addEventListener('click', cardLike)
+    function renderLikes(newLikes) {
+      const isLiked = !!(newLikes.find((element) => element['_id'] === currentUserId));
+      if (isLiked) {
+        btnLike.classList.add('card__like-button_is-active');
+      } else {  
+        btnLike.classList.remove('card__like-button_is-active');
+      }
+      counter.textContent = newLikes.length;
+    }
+    
+    
+  
+    
+    btnLike.addEventListener('click', () => {
+      like({
+        cardId: data['_id'],
+        isLikedBtn: btnLike.classList.contains('card__like-button_is-active'),
+        renderLikes,
+      });
+      console.log(data['_id'])
+      
+    });
+    renderLikes(data.likes);
 
     return card;
 }
+
 
 export {createCard} 

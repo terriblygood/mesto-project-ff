@@ -1,4 +1,4 @@
-export const whileLoad = ({btnElement, isLoad}) => {
+export const renderLoad = ({btnElement, isLoad}) => {
     if (isLoad) {
         btnElement.textContent = 'Сохранение...';
     }

@@ -1,3 +1,5 @@
+import { IsImageValid } from ".";
+
 const base = {
     baseUrl: 'https://nomoreparties.co/v1/wff-cohort-7',
     headers: {
@@ -13,21 +15,8 @@ const checkRes = (res) => {
     return Promise.reject(`Ошибка: ${res.status}`);
   };
 
-const imageIsValid = (url) => {
-    return fetch(url, {
-        method: 'HEAD',
-      }).then(({ ok, headers, status }) => {
-        if (ok) {
-          if (headers.get('Content-Type').includes('image')) {
-            return Promise.resolve();
-          }
-          return Promise.reject('Ошибка: URL не ссылается на картинку, проверьте введенный адрес');
-        }
-        return Promise.reject(`Ошибка: ${status}`);
-      });};
-
 const createCard = ({name, link})  => {
-    return imageIsValid(link).then(() =>
+    return IsImageValid(link).then(() =>
     fetch(`${base.baseUrl}/cards`, {
         method: 'POST',
         headers: base.headers,
@@ -44,9 +33,6 @@ const deleteCard = (cardId) => {
     })
     .then(checkRes);
 };
-
-
-
 
 const getInitialCards = () => {
     return fetch(`${base.baseUrl}/cards`,
@@ -65,11 +51,6 @@ const getUserData = () => {
     })
     .then(checkRes)
 }
-
-const getUserInfo = () => {
-    return fetch(`${base.baseUrl}/users/me`, { headers: base.headers})
-    .then(checkRes);
-  };
   
 const updateUserInfo = ({ name, description }) => {
     return fetch(`${base.baseUrl}/users/me`, {
@@ -82,24 +63,8 @@ const updateUserInfo = ({ name, description }) => {
     }).then(checkRes);
 };
 
-const likeCard = (cardId) => {
-    return fetch(`${base.baseUrl}/cards/likes/${cardId}`, {
-      headers: base.headers,
-      method: 'PUT',
-    })
-    .then(checkRes);
-};
-  
-  const unLikeCard = (cardId) => {
-    return fetch(`${base.baseUrl}/cards/likes/${cardId}`, {
-      headers: base.headers,
-      method: 'DELETE', 
-    })
-    .then(checkRes); 
-};
-
 const userAvatar = (url) => {
-    return imageIsValid(url).then(() =>
+    return IsImageValid(url).then(() =>
       fetch(`${base.baseUrl}/users/me/avatar`, {
         headers: base.headers,
         method: 'PATCH',
@@ -110,5 +75,12 @@ const userAvatar = (url) => {
     );
   };
 
-
-export {getInitialCards, createCard, deleteCard, getUserInfo, getUserData, updateUserInfo, likeCard, unLikeCard, userAvatar}
+const toggleLike = (cardId, isLiked) => {
+    return fetch(`${base.baseUrl}/cards/likes/${cardId}`, {
+      headers: base.headers,
+      method: isLiked ? 'DELETE' : 'PUT',
+    })
+    .then(checkRes);
+};
+  
+export {getInitialCards, createCard, deleteCard, getUserData, updateUserInfo, userAvatar, toggleLike}

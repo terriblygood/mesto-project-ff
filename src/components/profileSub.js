@@ -1,14 +1,14 @@
 import { updateUserInfo, userAvatar} from "./API";
 import {editImageForm, editImageInput, popupEditProfile, setProfile, validationConfig, popupEditImage, nameInput, jobInput, editImageButton, profileSubmit} from "./index";
 import { closeModalWindow, openModalWindow } from "./modal";
-import { whileLoad } from "./uxForms";
+import { renderLoad } from "./uxForms";
 import { clearValidation } from "./validation";
 
 
 const handleProfileSubmit = (evt) => {
     evt.preventDefault();
 
-    whileLoad({
+    renderLoad({
         btnElement: profileSubmit,
         isLoad: true
       });
@@ -28,7 +28,7 @@ const handleProfileSubmit = (evt) => {
         })
       .catch((error) => { console.log(error); })
       .finally(() => {
-        whileLoad({
+        renderLoad({
           btnElement: profileSubmit,
           isLoad: false
         });
@@ -38,7 +38,7 @@ const handleProfileSubmit = (evt) => {
 const handleProfileEditImageSubmit = (evt) => {
     evt.preventDefault();
   
-    whileLoad({
+    renderLoad({
       btnElement: editImageButton,
       isLoad: true
     });
@@ -51,7 +51,7 @@ const handleProfileEditImageSubmit = (evt) => {
       })
       .catch((error) => { console.log(error) })
       .finally(() => {
-        whileLoad({
+        renderLoad({
           btnElement: editImageButton,
           isLoad: false
         });
