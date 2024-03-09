@@ -8,7 +8,8 @@ const createCard=({ currentUserId, template, data, openConfirm, like, openCardIm
     const cardImage = card.querySelector('.card__image');
     const counter = card.querySelector('.card__like-counter');
     const btnLike = card.querySelector('.card__like-button');
-    counter.classList.add('card__like-counter_is-active');
+
+
 
     cardImage.addEventListener('click', () =>
       openCardImage({
