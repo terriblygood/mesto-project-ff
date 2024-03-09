@@ -836,9 +836,6 @@ template {
     text-align: center;
     font-size: 13px;
     line-height: normal;
-    display: none;
-}
-.card__like-counter_is-active {
     display: inline-block;
 }
 .card__delete-button_is-active {
