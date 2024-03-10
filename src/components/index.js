@@ -2,7 +2,7 @@ import '../pages/index.css';
 import '../vendor/normalize.css';
 import {openModalWindow, closeModalWindow} from './modal';
 import {handleEditImageClick, handleProfileEditImageSubmit, handleProfileSubmit} from './profileSub';
-import {createCard} from './card';
+import {createCard, deleteCardFn, handleDeleteCard} from './card';
 import { clearValidation, enableValidation } from './validation';
 import { getInitialCards, getUserData, deleteCard as apiDeleteCard, toggleLike, createCard as apiCreateCard} from './API';
 import { renderLoad } from './uxForms';
@@ -56,7 +56,7 @@ export const editImageButton = editImageForm.querySelector('.popup__button');
 export const popupEditImage = document.querySelector('.popup_type_edit-avatar');
 const editImageClose = popupEditImage.querySelector('.popup__close');
 
-export const cardToRemove = {
+const cardToRemove = {
   _id: null,
   card: null
 }
@@ -97,7 +97,9 @@ export const IsImageValid = (url) => {
     });};
 
 
-export function openConfirm() {
+export function openConfirm({cardId, card}) {
+  cardToRemove._id = cardId;
+  cardToRemove.card = card;
   openModalWindow(popupConfirm);
 }
 
@@ -105,7 +107,7 @@ export function handleConfirmDeleteCard(){
 
   apiDeleteCard(cardToRemove._id)
       .then(() => {
-        cardToRemove.card.remove();
+        handleDeleteCard(cardToRemove.card)
         
 
         cardToRemove._id = null;
@@ -115,10 +117,11 @@ export function handleConfirmDeleteCard(){
     .catch(console.error)
 };
 
-export function handleLike({cardId, isLikedBtn, renderLikes}) {
+export function handleLike({cardId, isLikedBtn, renderLikes, userId, btnElement, counter}) {
+
   toggleLike(cardId, isLikedBtn)
     .then(({ likes }) => { 
-      renderLikes(likes);
+      renderLikes(likes, userId, btnElement, counter);
     })
     .catch(console.error);
 };

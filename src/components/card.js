@@ -1,4 +1,12 @@
-import { cardToRemove } from ".";
+function renderLikes( newLikes, userId, btnElement, counter) {
+  const isLiked = !!(newLikes.find((element) => element['_id'] === userId));
+  if (isLiked) {
+    btnElement.classList.add('card__like-button_is-active');
+  } else {  
+    btnElement.classList.remove('card__like-button_is-active');
+  }
+  counter.textContent = newLikes.length;
+}
 
 
 const createCard=({ currentUserId, template, data, openConfirm, like, openCardImage }) => {
@@ -27,41 +35,31 @@ const createCard=({ currentUserId, template, data, openConfirm, like, openCardIm
         deleteButton.classList.add('card__delete-button_is-active');
         deleteButton.addEventListener('click', () => {
 
-        cardToRemove._id = data['_id'];
-        cardToRemove.card = card;
-        
-        
-        openConfirm();
+        openConfirm({cardId: data['_id'], card});
         });
     };
 
-    
-    function renderLikes(newLikes) {
-      const isLiked = !!(newLikes.find((element) => element['_id'] === currentUserId));
-      if (isLiked) {
-        btnLike.classList.add('card__like-button_is-active');
-      } else {  
-        btnLike.classList.remove('card__like-button_is-active');
-      }
-      counter.textContent = newLikes.length;
-    }
-    
-    
-  
-    
+
     btnLike.addEventListener('click', () => {
       like({
         cardId: data['_id'],
         isLikedBtn: btnLike.classList.contains('card__like-button_is-active'),
         renderLikes,
+        userId: currentUserId,
+        btnElement: btnLike,
+        counter: counter,
       });
-      console.log(data['_id'])
-      
     });
-    renderLikes(data.likes);
+
+    renderLikes(data.likes, currentUserId, btnLike, counter);
 
     return card;
 }
 
+function handleDeleteCard(cardForDelete) {
+  cardForDelete.remove();
+}
 
-export {createCard} 
+
+
+export {createCard, handleDeleteCard} 
